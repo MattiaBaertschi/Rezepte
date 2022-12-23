@@ -1,0 +1,76 @@
+insert into zutaten
+values ('Mehl');
+insert into zutaten
+values ('Zucker');
+insert into zutaten
+values ('Salz');
+insert into zutaten
+values ('Trockenhefe');
+insert into zutaten
+values ('Ei');
+insert into zutaten
+values ('Milch');
+
+
+insert into einheiten
+values ('Kilogramm [kg]');
+insert into einheiten
+values ('Gramm [g]');
+insert into einheiten
+values ('Teelöffel [TL]');
+insert into einheiten
+values ('Esslöffel [EL]');
+insert into einheiten
+values ('Anzahl [#]');
+insert into einheiten
+values ('Liter [l]');
+insert into einheiten
+values ('Deziliter [dl]');
+insert into einheiten
+values ('Milliliter [ml]');
+
+
+insert into zubereitungsschritte
+values (1, 'Mehl in Schüssel');
+insert into zubereitungsschritte
+values (2, 'Salz und Zucker dazugeben')
+insert into zubereitungsschritte
+values (3, 'Eier mit Milch aufrühren und der Schüssel dazugeben');
+insert into zubereitungsschritte
+values (4, 'Milch in Schüssel geben');
+insert into zubereitungsschritte
+values (5, 'Kneten');
+insert into zubereitungsschritte
+values (6, 'Teig 60 Minuten ruhen lassen');
+insert into zubereitungsschritte
+values (7, 'Züpfe formen');
+insert into zubereitungsschritte
+values (8, 'Züpfe bei 180° Umluft (200° Ober/Unterhitze) für 35 Minuten backen');
+
+
+insert into zutaten_einheiten
+values (1.2);
+insert into einheiten_zutaten
+values (20);
+insert into einheiten_zutaten
+values (3);
+insert into einheiten_zutaten
+values (40);
+insert into einheiten_zutaten
+values (3);
+insert into einheiten_zutaten
+values (4.5);
+
+
+insert into zubereitungen
+values ('Teig');
+insert into zubereitungen
+values ('Backen');
+
+
+insert into rezepte
+values ('Züpfe');
+insert into zubereitungen
+values ('Apfelstreuselkuchen');
+insert into zubereitungen
+values ('Citronen-Cake');
