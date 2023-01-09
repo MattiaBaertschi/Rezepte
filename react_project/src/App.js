@@ -1,8 +1,9 @@
 //=======================================IMPORTS========================================//
 import './App.css';
-import React, {useState, useEffect, Component} from 'react';
+import React, {useRef, useState, useEffect, Component} from 'react';  // useRef ist um die Textelemente aus dem Childelement insert abzugreifen
 import {ReactComponent as LoginSvg} from './svg/login.svg';
 import {ReactComponent as LupeSvg} from './svg/lupe.svg';
+
 
 // Schnittstelle für API
 import axios from 'axios';
@@ -13,8 +14,10 @@ import Insert from './insert';
 import Home from './Home';
 
 
+
 //====================================APP-FUNKTION=======================================//
 function App  () {
+
   
   //-------------------------------Schnittstelle für API---------------------------------//
   const [data, setData] = useState(null);
@@ -25,7 +28,7 @@ function App  () {
 
 
   function download(){
-    let url = "https://vm4.sourcelab.ch/rezepte"
+    let url = "https://vm4.sourcelab.ch/dev/getrecipes"
     
     setLoading(true);
 
@@ -49,7 +52,7 @@ function App  () {
   const [Render, setRender] = useState({
     rezepte: false,    // Alle Rezepte
     home:    true,     // Homepage
-    insert:  false,    // Einfügen
+    ins:  false,    // Einfügen
   });
   
    //---------------------------------Rendering-der-App-----------------------------------//
@@ -68,7 +71,7 @@ function App  () {
                     setRender({
                       home: true,
                       rezepte: false,
-                      insert: false
+                      ins: false
                     });
                   }}>
                   Home
@@ -85,7 +88,7 @@ function App  () {
                     setRender({
                       home: false,
                       rezepte: true,
-                      insert: false
+                      ins: false
                     });
                   }}>
                   Rezepte
@@ -94,14 +97,14 @@ function App  () {
             }
 
             {/* Insertbutton */}
-            {!Render.insert &&
+            {!Render.ins &&
               <>
                 <button className="p-2 text-Black m-2 hover:underline"
                   onClick={() => {
                     setRender({
                       home: false,
                       rezepte: false,
-                      insert: true
+                      ins: true
                     });
                   }}>
                   Hinzufügen
@@ -115,11 +118,10 @@ function App  () {
             <div className="self-center">
               <label className="relative block">
                 <span className="sr-only">Search</span>
-                <button className="absolute inset-y-0 left-0 flex items-center pl-2">
-                  <LupeSvg className="w-5 h-5"/>
-                </button>
-                <input  className="placeholder:italic placeholder:text-slate-500 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-black  focus:ring-1 sm:text-sm"
-                        placeholder="Search"
+                <input  className="block p-2.5 w-15 ml-10 h-11 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500
+                    focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                    dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search "
                         type="text"
                         name="search"
                         value={inp_search}
@@ -127,13 +129,17 @@ function App  () {
                         />
                                           {console.log(inp_search)}
               </label>
+              
             </div>
 
-            <div className="p-2 text-Black m-2"><LoginSvg className="w-5"/></div>
+            <div className="p-2 text-Black m-2">
+              <LoginSvg className="w-5"/>
+            </div>
           </div>
 
         </div>
-      
+
+
         {/* Errormeldung falls API nicht erreicht werden kann*/}
         <div>
           {error && <>
@@ -157,18 +163,37 @@ function App  () {
         }
         
         {/*......................... ....Darstellung Einfügebereich................................*/}
-        {Render.rezepte && <>
+        {Render.ins && <>
         <Insert/>
         </>
         }
 
 
         {/* -----------------------------------Footer--------------------------------------------- */}
-        <div className="bg-slate-500 h-40 text-white mt-10">
-          <p className='text-left p-10'>This is my footer</p>
+        <div className=" bg-zinc-700 text-white p-5 mt-20">
+          <div className='mb-10'>
+            <p className='text-sm font-thin text-left'>© Timon von Kuhn & Mattia Bärtschi </p>
+            <p className='text-xs font-thin text-left'>Alle Rechte Vorbehalten</p>
+          </div>
+          
+          <div className='flex'>
+            <div className='w-1/3'>
+                <p className='text-left'>Merke:</p>
+                <p className='text-xs font-thin text-left'>
+                Seien Sie sich bitte sehr bewusst, dass der Erfolg der auf dieser Seite beschriebenen Rezepte stark von den Fähigkeiten des Koches / der Köchin abhängig ist. Wir können Ihnen keinen Erfolg garantieren.
+                </p>
+            </div>
+            <div className='w-1/3'></div>
+            <div className='w-1/3'>
+              <p className='text-left'>Login</p>
+              <p className='text-xs font-thin text-left'>
+                Wenn Sie auch gerne Ihre Rezepte auf unserer Homepage aufschalten würden, dann melden Sie sich jerderzeit auf test@hotmail.com
+              </p>
+            </div>
+          </div>
         </div>
-
       </div>
+
   );
 }
 

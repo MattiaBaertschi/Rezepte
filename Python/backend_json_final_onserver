@@ -3,30 +3,21 @@ import json
 
 # Imports für Rest API Schnittstelle
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI,Request
 from fastapi.middleware.cors import CORSMiddleware
 
-#---------------------------------------------------------------------------------------------------------------#
-# Lesen und Importieren des JSON-Files mit Rezepten
-
-
 with open('rezepte.json',encoding='utf-8') as f:
-    data = json.load(f)                                    #json wird als data mit typ dict importiert
-
+    data = json.load(f)
 
 #---------------------------------------------------------------------------------------------------------------#
 # Rest API
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-    "https://vm4.sourcelab.ch"
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,36 +25,29 @@ app.add_middleware(
 
 
 # Gewünschte Rezepte über die API freigeben
-@app.get("/getrecipes")
+@app.get("/dev/getrecipes")
 async def getRecipes() :
+    # Lesen und Importieren des JSON-Files mit Rezepten
     return data
 
 # Neue Rezepte einfügen
-@app.post("/postrecipes")
+@app.post("/dev/postrecipes")
 async def postRecipes(info : Request) :
     req_info = await info.json()
     new_recipe = req_info['input']
     data.update(new_recipe)
     print(data)
 
-    with open("rezepte.json", "w") as jsonFile:
-        json.dump(data, jsonFile)
+    with open("rezepte.json","w", encoding='utf-8') as f:
+        json.dump(data, f)
 
     return{
         "status" : "SUCCESS",
         "data" : new_recipe
 
-}
-    
-@app.get("/")
-async def getRecipes() :
-    return {"this is a test"}
+}                             
+
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
-
-
-
-
-    
+    uvicorn.run(app, host="127.0.0.1", port=8001, root_path="/dev")
